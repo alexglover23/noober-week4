@@ -13,11 +13,11 @@ async function pageLoaded() {
   console.log(json.length)
 
   let levelOfService
-  for(let i = 0; i < json.length; i++) {
+  for (let i = 0; i < json.length; i++) {
     let rideRequests = json[i]
     console.log(rideRequests)
 
-    // assign levelOfService for each rideRequest, based on info from rideLegs
+    // assign levelOfService for each rideRequest, which consists of one or more groups of people taking a ride
     if (rideRequests.length > 1) {
       levelOfService = 'Noober Pool'
     } else if (rideRequests[0].purpleRequested) {
@@ -28,7 +28,7 @@ async function pageLoaded() {
       levelOfService = 'Noober X'
     }
 
-    // assign level of service to the html string
+    // assign levelOfService to the html string
     let elementOne = document.querySelector('.rides')
     elementOne.insertAdjacentHTML('beforeend', `
       <h1 class="inline-block mt-8 px-4 py-2 rounded-xl text-2xl bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">
@@ -38,17 +38,13 @@ async function pageLoaded() {
     `)
 
     // isolates the individual objects within the rideRequests array. this represents the ride legs
-    for(let ii = 0; ii < rideRequests.length; ii++) {
+    for (let ii = 0; ii < rideRequests.length; ii++) {
       let rideLegs = rideRequests[ii]
-      
-      // access details for each individual rider
-      let rideLegsPassengerDetails = rideLegs.passengerDetails.first
-      console.log(rideLegsPassengerDetails)
       
       // Noober purple design features defined
       let rideLegBorderColor
       let passengerBoxColor
-      if(levelOfService == 'Noober Purple') {
+      if (levelOfService == 'Noober Purple') {
         rideLegBorderColor = '"border-4 border-purple-500 p-4 my-4 text-left"'
         passengerBoxColor = '"rounded-xl bg-purple-600 text-white p-2"'
       } else {
